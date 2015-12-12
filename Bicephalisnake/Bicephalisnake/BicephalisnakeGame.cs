@@ -20,7 +20,7 @@ namespace Tphx.Bicephalisnake
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this)
+            this.graphics = new GraphicsDeviceManager(this)
             {
                 PreferredBackBufferWidth = 560,
                 PreferredBackBufferHeight = 660
