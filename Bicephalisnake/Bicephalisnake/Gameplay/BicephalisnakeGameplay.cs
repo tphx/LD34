@@ -15,6 +15,7 @@ namespace Tphx.Bicephalisnake.Gameplay
         {
             Uninitialized,
             NewGame,
+            ReadyScreen,
             CountDown,
             Playing,
             GameOver
@@ -45,6 +46,8 @@ namespace Tphx.Bicephalisnake.Gameplay
             {
                 case GameplayState.NewGame:
                     NewGame();
+                    break;
+                case GameplayState.ReadyScreen:
                     break;
                 case GameplayState.CountDown:
                     break;
