@@ -29,6 +29,8 @@ namespace Tphx.Bicephalisnake.Gameplay
             NewGame();
         }
 
+        public static Vector2 BoardDimensions { get; private set; }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             if(snake != null)
@@ -55,7 +57,9 @@ namespace Tphx.Bicephalisnake.Gameplay
 
         private void NewGame()
         {
-            snake = new Snake(this.content, new Vector2(17.0f, 17.0f));
+            BicephalisnakeGameplay.BoardDimensions = new Vector2(35.0f, 35.0f);
+            snake = new Snake(this.content, new Vector2((BicephalisnakeGameplay.BoardDimensions.X / 2), 
+                (BicephalisnakeGameplay.BoardDimensions.X / 2)));
         }
     }
 }

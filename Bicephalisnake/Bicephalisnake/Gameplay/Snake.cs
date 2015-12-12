@@ -83,7 +83,7 @@ namespace Tphx.Bicephalisnake.Gameplay
 
         private void CreateSnake(Vector2 position)
         {
-            // Snake starts facing upwards with the head in the middle of the screen.
+            // Snake starts facing upwards.
             this.head = new SnakePiece(position, 0.0f, new Vector2(0.0f, -1.0f));
             this.tail = new SnakePiece(new Vector2(position.X, position.Y + 1.0f), 0.0f, 
                 new Vector2(0.0f, -1.0f));
