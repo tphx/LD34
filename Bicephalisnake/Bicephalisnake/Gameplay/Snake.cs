@@ -63,35 +63,6 @@ namespace Tphx.Bicephalisnake.Gameplay
 
         public bool MovingVertically { get; set; }
 
-        private void MoveHead()
-        {
-            this.head.Position = new Vector2(
-                (this.head.Position.X + (1.0f * this.head.MovementDirection.X)),
-                (this.head.Position.Y + (1.0f * this.head.MovementDirection.Y)));
-            
-            if(this.head.Position.X < 0.0f)
-            {
-                this.head.Position = new Vector2(BicephalisnakeGameplay.BoardDimensions.X, 
-                    this.head.Position.Y);
-            }
-
-            if (this.head.Position.X > BicephalisnakeGameplay.BoardDimensions.X)
-            {
-                this.head.Position = new Vector2(0.0f, this.head.Position.Y);
-            }
-
-            if (this.head.Position.Y < 0.0f)
-            {
-                this.head.Position = new Vector2(this.head.Position.X,
-                    BicephalisnakeGameplay.BoardDimensions.Y);
-            }
-
-            if (this.head.Position.Y > BicephalisnakeGameplay.BoardDimensions.Y)
-            {
-                this.head.Position = new Vector2(this.head.Position.X, 0.0f);
-            }
-        }
-
         public void SpawnSnakePiece()
         {
             // The new piece is the current tail. 
@@ -124,6 +95,35 @@ namespace Tphx.Bicephalisnake.Gameplay
         }
 
         public double TimeBetweenMoves { get; set; }
+
+        private void MoveHead()
+        {
+            this.head.Position = new Vector2(
+                (this.head.Position.X + (1.0f * this.head.MovementDirection.X)),
+                (this.head.Position.Y + (1.0f * this.head.MovementDirection.Y)));
+
+            if (this.head.Position.X < 0.0f)
+            {
+                this.head.Position = new Vector2(BicephalisnakeGameplay.BoardDimensions.X,
+                    this.head.Position.Y);
+            }
+
+            if (this.head.Position.X > BicephalisnakeGameplay.BoardDimensions.X)
+            {
+                this.head.Position = new Vector2(0.0f, this.head.Position.Y);
+            }
+
+            if (this.head.Position.Y < 0.0f)
+            {
+                this.head.Position = new Vector2(this.head.Position.X,
+                    BicephalisnakeGameplay.BoardDimensions.Y);
+            }
+
+            if (this.head.Position.Y > BicephalisnakeGameplay.BoardDimensions.Y)
+            {
+                this.head.Position = new Vector2(this.head.Position.X, 0.0f);
+            }
+        }
 
         private void CreateSnake(Vector2 position)
         {
