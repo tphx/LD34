@@ -23,6 +23,8 @@ namespace Tphx.Bicephalisnake.Gameplay
 
         private GameplayState gameplayState = GameplayState.Uninitialized;
         private Snake snake;
+        private double timeSinceLastInput;
+        private double inputCooldown = 0.02;
 
         public BicephalisnakeGameplay(ContentManager content)
             : base(content)
@@ -34,14 +36,16 @@ namespace Tphx.Bicephalisnake.Gameplay
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if(snake != null)
+            if(this.snake != null)
             {
-                snake.Draw(spriteBatch);
+                this.snake.Draw(spriteBatch);
             }
         }
 
         public override void Update(GameTime gameTime)
         {
+            this.timeSinceLastInput += gameTime.ElapsedGameTime.TotalSeconds;
+
             switch (this.gameplayState)
             {
                 case GameplayState.NewGame:
@@ -52,10 +56,34 @@ namespace Tphx.Bicephalisnake.Gameplay
                 case GameplayState.CountDown:
                     break;
                 case GameplayState.Playing:
+                    UpdateGameplay(gameTime);
                     break;
                 case GameplayState.GameOver:
                     break;
             }
+        }
+
+        private void UpdateGameplay(GameTime gameTime)
+        {
+            if (this.timeSinceLastInput >= this.inputCooldown)
+            {
+                KeyboardState keyboardState = Keyboard.GetState();
+
+                if(keyboardState.IsKeyDown(Keys.Left) && this.snake.MovingVertically)
+                {
+                    float turnDirection = new Random((int)System.DateTime.Now.Ticks).Next(2) > 0 ? 1.0f : -1.0f;
+                    this.snake.TurnSnake(new Vector2(turnDirection, 0.0f));
+                    this.timeSinceLastInput = 0.0f;
+                }
+                else if (keyboardState.IsKeyDown(Keys.Down) && !this.snake.MovingVertically)
+                {
+                    float turnDirection = new Random((int)System.DateTime.Now.Ticks).Next(2) > 0 ? 1.0f : -1.0f;
+                    this.snake.TurnSnake(new Vector2(0.0f, turnDirection));
+                    this.timeSinceLastInput = 0.0f;
+                }
+            }
+
+            this.snake.Update(gameTime);
         }
 
         private void NewGame()
@@ -66,7 +94,9 @@ namespace Tphx.Bicephalisnake.Gameplay
                 (BicephalisnakeGameplay.BoardDimensions.X / 2));
             snakePosition.X = (float)Math.Floor(snakePosition.X);
             snakePosition.Y = (float)Math.Floor(snakePosition.Y);
-            snake = new Snake(this.content, snakePosition);
+
+            this.snake = new Snake(this.content, snakePosition, 1.0);
+            this.gameplayState = GameplayState.Playing;
         }
     }
 }

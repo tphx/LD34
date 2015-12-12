@@ -14,25 +14,38 @@ namespace Tphx.Bicephalisnake.Gameplay
         private SnakePiece tail;
         private List<SnakePiece> bodyPieces = new List<SnakePiece>();
         private Texture2D texture;
+        private double timeSinceLastMove;
 
-        public Snake(ContentManager content, Vector2 position)
+        public Snake(ContentManager content, Vector2 position, double timeBetweenMoves)
         {
             this.texture = content.Load<Texture2D>("Textures\\TestTextures");
+            this.TimeBetweenMoves = timeBetweenMoves;
             CreateSnake(position);
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            this.timeSinceLastMove += gameTime.ElapsedGameTime.TotalSeconds;
+
+            if(this.timeSinceLastMove >= this.TimeBetweenMoves)
+            {
+                MoveSnake();
+                this.timeSinceLastMove = 0.0;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, (this.head.Position * 16.0f), new Rectangle(1, 1, 16, 16), Color.White,
+            spriteBatch.Draw(this.texture, (this.head.Position * 16.0f), new Rectangle(1, 1, 16, 16), Color.White,
                 this.head.Rotation, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.5f);
 
             foreach(SnakePiece bodyPiece in this.bodyPieces)
             {
-                spriteBatch.Draw(texture, (bodyPiece.Position * 16.0f), new Rectangle(35, 1, 16, 16), Color.White,
+                spriteBatch.Draw(this.texture, (bodyPiece.Position * 16.0f), new Rectangle(35, 1, 16, 16), Color.White,
                     bodyPiece.Rotation, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.5f);
             }
 
-            spriteBatch.Draw(texture, (this.tail.Position * 16.0f), new Rectangle(18, 1, 16, 16), Color.White,
+            spriteBatch.Draw(this.texture, (this.tail.Position * 16.0f), new Rectangle(18, 1, 16, 16), Color.White,
                 this.tail.Rotation, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.5f);
         }
 
@@ -47,6 +60,8 @@ namespace Tphx.Bicephalisnake.Gameplay
             MoveBody(originalHead);
             this.tail = (originalBodyEnd == null) ? originalHead : originalBodyEnd;
         }
+
+        public bool MovingVertically { get; set; }
 
         private void MoveHead()
         {
@@ -95,16 +110,20 @@ namespace Tphx.Bicephalisnake.Gameplay
             // we actually turn. If it isn't we can ignore the turn.
 
             // Horizonal turn if the head isn't moving horizontally.
-            if((direction.X != 0.0f && direction.Y == 0.0f) && (this.head.MovementDirection.X == 0.0f))
+            if((direction.X != 0.0f && direction.Y == 0.0f) && this.MovingVertically)
             {
                 this.head.MovementDirection = direction;
+                this.MovingVertically = false;
             }
             // Vertical turn if the head isn't moving vertically.
-            else if ((direction.Y != 0.0f && direction.X == 0.0f) && (this.head.MovementDirection.Y == 0.0f))
+            else if ((direction.Y != 0.0f && direction.X == 0.0f) && !this.MovingVertically)
             {
                 this.head.MovementDirection = direction;
+                this.MovingVertically = true;
             }
         }
+
+        public double TimeBetweenMoves { get; set; }
 
         private void CreateSnake(Vector2 position)
         {
