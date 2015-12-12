@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bicephalisnake
+namespace Tphx.Bicephalisnake
 {
 #if WINDOWS || LINUX
     /// <summary>
