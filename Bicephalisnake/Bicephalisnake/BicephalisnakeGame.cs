@@ -43,6 +43,7 @@ namespace Tphx.Bicephalisnake
 
         protected override void UnloadContent()
         {
+            this.activeComponent.Dispose();
         }
 
         protected override void Update(GameTime gameTime)
