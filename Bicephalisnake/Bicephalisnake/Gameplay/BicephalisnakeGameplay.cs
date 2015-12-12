@@ -10,6 +10,16 @@ namespace Tphx.Bicephalisnake.Gameplay
 {
     class BicephalisnakeGameplay : GameComponent
     {
+        private enum GameplayState
+        {
+            Uninitialized,
+            NewGame,
+            CountDown,
+            Playing,
+            GameOver
+        };
+
+        private GameplayState gameplayState = GameplayState.Uninitialized;
         private Texture2D snakeTexture;
         private Texture2D levelTexture;
 
@@ -17,6 +27,7 @@ namespace Tphx.Bicephalisnake.Gameplay
             : base(content)
         {
             LoadTextures();
+            this.gameplayState = GameplayState.NewGame;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -25,6 +36,17 @@ namespace Tphx.Bicephalisnake.Gameplay
 
         public override void Update(GameTime gameTime)
         {
+            switch(this.gameplayState)
+            {
+                case GameplayState.NewGame:
+                    break;
+                case GameplayState.CountDown:
+                    break;
+                case GameplayState.Playing:
+                    break;
+                case GameplayState.GameOver:
+                    break;
+            }
         }
 
         private void LoadTextures()
