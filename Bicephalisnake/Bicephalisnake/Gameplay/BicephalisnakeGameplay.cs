@@ -20,18 +20,20 @@ namespace Tphx.Bicephalisnake.Gameplay
         };
 
         private GameplayState gameplayState = GameplayState.Uninitialized;
-        private Texture2D snakeTexture;
-        private Texture2D levelTexture;
+        private Snake snake;
 
         public BicephalisnakeGameplay(ContentManager content)
             : base(content)
         {
-            LoadTextures();
-            this.gameplayState = GameplayState.NewGame;
+            NewGame();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            if(snake != null)
+            {
+                snake.Draw(spriteBatch);
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -49,10 +51,9 @@ namespace Tphx.Bicephalisnake.Gameplay
             }
         }
 
-        private void LoadTextures()
+        private void NewGame()
         {
-            this.snakeTexture = this.content.Load<Texture2D>("Textures\\TestTextures");
-            this.levelTexture = this.content.Load<Texture2D>("Textures\\TestGround");
+            snake = new Snake(this.content, new Vector2(17.0f, 17.0f));
         }
     }
 }
