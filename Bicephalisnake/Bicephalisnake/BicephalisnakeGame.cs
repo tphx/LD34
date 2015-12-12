@@ -47,6 +47,7 @@ namespace Tphx.Bicephalisnake
 
         protected override void Update(GameTime gameTime)
         {
+            this.activeComponent.Update(gameTime);
             base.Update(gameTime);
         }
 
