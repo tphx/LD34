@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Input;
 
 namespace Tphx.Bicephalisnake.Gameplay
 {
@@ -38,9 +39,10 @@ namespace Tphx.Bicephalisnake.Gameplay
 
         public override void Update(GameTime gameTime)
         {
-            switch(this.gameplayState)
+            switch (this.gameplayState)
             {
                 case GameplayState.NewGame:
+                    NewGame();
                     break;
                 case GameplayState.CountDown:
                     break;
