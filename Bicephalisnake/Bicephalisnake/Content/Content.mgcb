@@ -24,3 +24,9 @@
 /processorParam:TextureFormat=Color
 /build:Textures/TestTextures.png
 
+#begin Fonts/Souses.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Fonts/Souses.spritefont
+
