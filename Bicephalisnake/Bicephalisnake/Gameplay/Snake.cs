@@ -20,6 +20,7 @@ namespace Tphx.Bicephalisnake.Gameplay
         {
             this.texture = content.Load<Texture2D>("Textures\\TestTextures");
             this.TimeBetweenMoves = timeBetweenMoves;
+            this.MovingVertically = true;
             CreateSnake(position);
         }
 
