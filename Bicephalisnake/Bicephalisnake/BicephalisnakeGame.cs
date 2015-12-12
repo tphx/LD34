@@ -17,7 +17,7 @@ namespace Tphx.Bicephalisnake
                 PreferredBackBufferHeight = 660
             };
 
-            Content.RootDirectory = "Content";
+            this.Content.RootDirectory = "Content";
         }
 
         protected override void Initialize()
@@ -27,7 +27,7 @@ namespace Tphx.Bicephalisnake
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            this.spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
         protected override void UnloadContent()
@@ -41,7 +41,7 @@ namespace Tphx.Bicephalisnake
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            this.GraphicsDevice.Clear(Color.CornflowerBlue);
 
             base.Draw(gameTime);
         }
