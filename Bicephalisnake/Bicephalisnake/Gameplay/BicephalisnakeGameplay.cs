@@ -61,8 +61,12 @@ namespace Tphx.Bicephalisnake.Gameplay
         private void NewGame()
         {
             BicephalisnakeGameplay.BoardDimensions = new Vector2(35.0f, 35.0f);
-            snake = new Snake(this.content, new Vector2((BicephalisnakeGameplay.BoardDimensions.X / 2), 
-                (BicephalisnakeGameplay.BoardDimensions.X / 2)));
+
+            Vector2 snakePosition = new Vector2((BicephalisnakeGameplay.BoardDimensions.X / 2),
+                (BicephalisnakeGameplay.BoardDimensions.X / 2));
+            snakePosition.X = (float)Math.Floor(snakePosition.X);
+            snakePosition.Y = (float)Math.Floor(snakePosition.Y);
+            snake = new Snake(this.content, snakePosition);
         }
     }
 }

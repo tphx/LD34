@@ -43,13 +43,38 @@ namespace Tphx.Bicephalisnake.Gameplay
             SnakePiece originalBodyEnd = GetBodyEnd();
 
             // Move the head and everything else just follows its leading piece.
+            MoveHead();
+            MoveBody(originalHead);
+            this.tail = (originalBodyEnd == null) ? originalHead : originalBodyEnd;
+        }
+
+        private void MoveHead()
+        {
             this.head.Position = new Vector2(
                 (this.head.Position.X + (1.0f * this.head.MovementDirection.X)),
                 (this.head.Position.Y + (1.0f * this.head.MovementDirection.Y)));
+            
+            if(this.head.Position.X < 0.0f)
+            {
+                this.head.Position = new Vector2(BicephalisnakeGameplay.BoardDimensions.X, 
+                    this.head.Position.Y);
+            }
 
-            MoveBody(originalHead);
+            if (this.head.Position.X > BicephalisnakeGameplay.BoardDimensions.X)
+            {
+                this.head.Position = new Vector2(0.0f, this.head.Position.Y);
+            }
 
-            this.tail = (originalBodyEnd == null) ? originalHead : originalBodyEnd;
+            if (this.head.Position.Y < 0.0f)
+            {
+                this.head.Position = new Vector2(this.head.Position.X,
+                    BicephalisnakeGameplay.BoardDimensions.Y);
+            }
+
+            if (this.head.Position.Y > BicephalisnakeGameplay.BoardDimensions.Y)
+            {
+                this.head.Position = new Vector2(this.head.Position.X, 0.0f);
+            }
         }
 
         public void SpawnSnakePiece()
