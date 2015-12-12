@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Tphx.Bicephalisnake.Gameplay;
 
 namespace Tphx.Bicephalisnake
 {
@@ -73,6 +74,7 @@ namespace Tphx.Bicephalisnake
                         this.activeComponent = null;
                         break;
                     case GameState.Playing:
+                        this.activeComponent = new BicephalisnakeGameplay(this.Content);
                         break;
                 }
             }
