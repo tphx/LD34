@@ -20,7 +20,6 @@ namespace Tphx.Bicephalisnake.Gameplay
         {
             this.texture = content.Load<Texture2D>("Textures\\TestTextures");
             this.TimeBetweenMoves = timeBetweenMoves;
-            this.MovingVertically = true;
             CreateSnake(position);
         }
 
@@ -128,8 +127,9 @@ namespace Tphx.Bicephalisnake.Gameplay
 
         private void CreateSnake(Vector2 position)
         {
-            // Snake starts facing upwards.
+            // Snake starts moving upwards.
             this.head = new SnakePiece(position, 0.0f, new Vector2(0.0f, -1.0f));
+            this.MovingVertically = true;
             this.tail = new SnakePiece(new Vector2(position.X, position.Y + 1.0f), 0.0f, 
                 new Vector2(0.0f, -1.0f));
         }
