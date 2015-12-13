@@ -10,6 +10,7 @@ namespace Tphx.Bicephalisnake
         private enum GameState
         {
             Uninitialized,
+            MainMenu,
             Playing
         };
 
@@ -38,7 +39,7 @@ namespace Tphx.Bicephalisnake
         {
             this.spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            ChangeGameState(GameState.Playing);
+            ChangeGameState(GameState.MainMenu);
         }
 
         protected override void UnloadContent()
@@ -49,6 +50,17 @@ namespace Tphx.Bicephalisnake
         protected override void Update(GameTime gameTime)
         {
             this.activeComponent.Update(gameTime);
+
+            switch(this.gameState)
+            {
+                case GameState.MainMenu:
+                    UpdateMainMenu(gameTime);
+                    break;
+                case GameState.Playing:
+                    UpdateGameplay(gameTime);
+                    break;
+            }
+
             base.Update(gameTime);
         }
 
@@ -65,9 +77,12 @@ namespace Tphx.Bicephalisnake
         {
             if(newGameState != this.gameState)
             {
+                this.gameState = newGameState;
+
                 if(this.activeComponent != null)
                 {
                     this.activeComponent.Dispose();
+                    this.activeComponent = null;
                 }
 
                 switch(newGameState)
@@ -75,10 +90,33 @@ namespace Tphx.Bicephalisnake
                     case GameState.Uninitialized:
                         this.activeComponent = null;
                         break;
+                    case GameState.MainMenu:
+                        this.activeComponent = new MainMenu(this.Content);
+                        break;
                     case GameState.Playing:
                         this.activeComponent = new BicephalisnakeGameplay(this.Content);
                         break;
                 }
+            }
+        }
+
+        private void UpdateMainMenu(GameTime gameTime)
+        {
+            MainMenu mainMenu = this.activeComponent as MainMenu;
+
+            if (mainMenu.StartGame)
+            {
+                ChangeGameState(GameState.Playing);
+            }
+        }
+
+        private void UpdateGameplay(GameTime gameTime)
+        {
+            BicephalisnakeGameplay gameplay = this.activeComponent as BicephalisnakeGameplay;
+
+            if (gameplay.ReturnToMainMenu)
+            {
+                ChangeGameState(GameState.MainMenu);
             }
         }
     }

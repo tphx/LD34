@@ -49,6 +49,7 @@
     <Compile Include="Gameplay\PowerupManager.cs" />
     <Compile Include="Gameplay\Snake.cs" />
     <Compile Include="Gameplay\SnakePiece.cs" />
+    <Compile Include="MainMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
