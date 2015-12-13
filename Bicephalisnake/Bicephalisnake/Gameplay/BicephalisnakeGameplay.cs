@@ -29,8 +29,10 @@ namespace Tphx.Bicephalisnake.Gameplay
         private Texture2D screenCover;
         private SpriteFont sousesFont;
         private int score;
+        private int scoreMulitiplier;
         private double countDownTime = 4.0;
         private double countdownRemaining;
+        private FoodManager foodManager;
         private Dictionary<Vector2, DirectionalArrow> directionalArrows = new Dictionary<Vector2, DirectionalArrow>()
         {
             { new Vector2(0.0f, -1.0f), new DirectionalArrow(0.0f, Color.Yellow) }, // Up
@@ -42,11 +44,6 @@ namespace Tphx.Bicephalisnake.Gameplay
         public BicephalisnakeGameplay(ContentManager content)
             : base(content)
         {
-            this.hudTexture = this.content.Load<Texture2D>("Textures\\HUD");
-            this.levelTexture = this.content.Load<Texture2D>("Textures\\Level1");
-            this.screenCover = this.content.Load<Texture2D>("Textures\\ScreenCover");
-            this.sousesFont = this.content.Load<SpriteFont>("Fonts\\Souses");
-        
             NewGame();
         }
 
@@ -70,6 +67,7 @@ namespace Tphx.Bicephalisnake.Gameplay
             spriteBatch.DrawString(this.sousesFont, string.Format("Score: {0:00000000}", this.score), 
                 new Vector2(197.0f, 600.0f), Color.Black);
 
+            this.foodManager.Draw(spriteBatch);
             this.snake.Draw(spriteBatch);
 
             if(this.gameplayState == GameplayState.Countdown)
@@ -150,7 +148,7 @@ namespace Tphx.Bicephalisnake.Gameplay
 
         private void UpdateGameplay(GameTime gameTime)
         {
-            if (this.timeSinceLastInput >= 0.2)
+            if (this.timeSinceLastInput >= this.snake.TimeBetweenMoves)
             {
                 KeyboardState keyboardState = Keyboard.GetState();
 
@@ -179,8 +177,12 @@ namespace Tphx.Bicephalisnake.Gameplay
             snakePosition.X = (float)Math.Floor(snakePosition.X);
             snakePosition.Y = (float)Math.Floor(snakePosition.Y);
 
-            this.snake = new Snake(this.content, snakePosition, 1.0);
+            this.content.Unload();
+            LoadContent();
+            this.snake = new Snake(this.content, snakePosition, 0.50);
+            this.foodManager = new FoodManager(this.content);
             this.score = 0;
+            this.scoreMulitiplier = 1;
             this.countdownRemaining = this.countDownTime;
             this.gameplayState = GameplayState.Countdown;
         }
@@ -197,7 +199,7 @@ namespace Tphx.Bicephalisnake.Gameplay
 
         private void UpdateGameOver(GameTime gameTime)
         {
-            if (this.timeSinceLastInput >= 1.0)
+            if (this.timeSinceLastInput >= 2.0)
             {
                 KeyboardState keyboardState = Keyboard.GetState();
 
@@ -222,13 +224,39 @@ namespace Tphx.Bicephalisnake.Gameplay
                 if(this.snake.Head.Position == bodyPiece.Position)
                 {
                     this.gameplayState = GameplayState.GameOver;
+                    this.timeSinceLastInput = 0.0;
+                    Console.WriteLine("Hit Body");
                 }
             }
 
+            // Snake tail.
             if (this.snake.Head.Position == this.snake.Tail.Position)
             {
                 this.gameplayState = GameplayState.GameOver;
+                this.timeSinceLastInput = 0.0;
+                Console.WriteLine("Hit Tail");
             }
+
+            // Food.
+            if(this.snake.Head.Position == this.foodManager.FoodPosition)
+            {
+                this.foodManager.EatFood();
+                this.snake.SpawnSnakePiece();
+                // Start off fast and then slow down so the speed doesn't get ridiculous too fast.
+                double reductionMultiplier = this.snake.TimeBetweenMoves >= 0.10 ? 0.80 : 0.97;
+                this.snake.TimeBetweenMoves *= reductionMultiplier;
+                Console.WriteLine(this.snake.TimeBetweenMoves);
+                this.score += (10 * this.scoreMulitiplier);
+                this.scoreMulitiplier++;
+            }
+        }
+
+        private void LoadContent()
+        {
+            this.hudTexture = this.content.Load<Texture2D>("Textures\\HUD");
+            this.levelTexture = this.content.Load<Texture2D>("Textures\\Level1");
+            this.screenCover = this.content.Load<Texture2D>("Textures\\ScreenCover");
+            this.sousesFont = this.content.Load<SpriteFont>("Fonts\\Souses");
         }
     }
 }
