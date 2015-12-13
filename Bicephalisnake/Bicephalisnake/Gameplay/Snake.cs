@@ -48,7 +48,7 @@ namespace Tphx.Bicephalisnake.Gameplay
                 position = new Vector2(bodyPiece.Position.X * 16.0f, bodyPiece.Position.Y * 16.0f);
                 position.X += 8.0f;
                 position.Y += 8.0f;
-                spriteBatch.Draw(this.texture, (position * 16.0f), new Rectangle(35, 1, 16, 16), Color.White,
+                spriteBatch.Draw(this.texture, position, new Rectangle(35, 1, 16, 16), Color.White,
                     MathHelper.ToRadians(bodyPiece.Rotation), new Vector2(8.0f, 8.0f), Vector2.One, 
                     SpriteEffects.None, 0.5f);
             }
@@ -129,11 +129,11 @@ namespace Tphx.Bicephalisnake.Gameplay
             }
         }
 
-        public SnakePiece Taile
+        public SnakePiece Tail
         {
             get
             {
-                return this.head;
+                return this.tail;
             }
         }
 

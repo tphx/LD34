@@ -164,9 +164,11 @@ namespace Tphx.Bicephalisnake.Gameplay
                     this.snake.TurnVertically();
                     this.timeSinceLastInput = 0.0f;
                 }
-
-                this.snake.Update(gameTime);
             }
+
+            this.snake.Update(gameTime);
+
+            CheckCollisions();
         }
 
         private void NewGame()
@@ -209,6 +211,23 @@ namespace Tphx.Bicephalisnake.Gameplay
                     this.timeSinceLastInput = 0.0;
                     NewGame();
                 }
+            }
+        }
+
+        private void CheckCollisions()
+        {
+            //Snake body.
+            foreach(SnakePiece bodyPiece in this.snake.BodyPieces)
+            {
+                if(this.snake.Head.Position == bodyPiece.Position)
+                {
+                    this.gameplayState = GameplayState.GameOver;
+                }
+            }
+
+            if (this.snake.Head.Position == this.snake.Tail.Position)
+            {
+                this.gameplayState = GameplayState.GameOver;
             }
         }
     }
