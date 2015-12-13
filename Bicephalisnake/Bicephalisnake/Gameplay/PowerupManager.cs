@@ -67,7 +67,7 @@ namespace Tphx.Bicephalisnake.Gameplay
         {
             Random rand = new Random((int)System.DateTime.Now.Ticks);
             this.ActivePowerup = new Powerup(new Vector2(rand.Next(0, 17), rand.Next(0, 17)), 
-                (PowerupType)new Random((int)System.DateTime.Now.Ticks).Next(0, 3));
+                (PowerupType)rand.Next(0, 3));
             this.timePowerupActive = 0.0;
         }
 
