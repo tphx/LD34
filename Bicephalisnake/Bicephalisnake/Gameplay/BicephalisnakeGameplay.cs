@@ -39,9 +39,9 @@ namespace Tphx.Bicephalisnake.Gameplay
         private Dictionary<Vector2, DirectionalArrow> directionalArrows = new Dictionary<Vector2, DirectionalArrow>()
         {
             { new Vector2(0.0f, -1.0f), new DirectionalArrow(0.0f, Color.Yellow) }, // Up
-            { new Vector2(0.0f, 1.0f), new DirectionalArrow(180.0f, Color.Blue) }, // Down
+            { new Vector2(0.0f, 1.0f), new DirectionalArrow(180.0f, Color.Red) }, // Down
             { new Vector2(-1.0f, 0.0f), new DirectionalArrow(270.0f, Color.Green) }, // Left
-            { new Vector2(1.0f, 0.0f), new DirectionalArrow(90.0f, Color.Red) }, // Right
+            { new Vector2(1.0f, 0.0f), new DirectionalArrow(90.0f, Color.Blue) }, // Right
         };
 
         public BicephalisnakeGameplay(ContentManager content)
