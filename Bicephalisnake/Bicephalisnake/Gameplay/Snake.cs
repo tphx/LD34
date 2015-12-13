@@ -36,17 +36,29 @@ namespace Tphx.Bicephalisnake.Gameplay
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.texture, (this.head.Position * 16.0f), new Rectangle(1, 1, 16, 16), Color.White,
-                this.head.Rotation, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.5f);
+            Vector2 position = new Vector2(this.head.Position.X * 16.0f, this.head.Position.Y * 16.0f);
+            position.X += 8.0f;
+            position.Y += 8.0f;
+            spriteBatch.Draw(this.texture, position, new Rectangle(1, 1, 16, 16), Color.White,
+                MathHelper.ToRadians(this.head.Rotation), new Vector2(8.0f, 8.0f), Vector2.One, 
+                SpriteEffects.None, 0.5f);
 
             foreach(SnakePiece bodyPiece in this.bodyPieces)
             {
-                spriteBatch.Draw(this.texture, (bodyPiece.Position * 16.0f), new Rectangle(35, 1, 16, 16), Color.White,
-                    bodyPiece.Rotation, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.5f);
+                position = new Vector2(bodyPiece.Position.X * 16.0f, bodyPiece.Position.Y * 16.0f);
+                position.X += 8.0f;
+                position.Y += 8.0f;
+                spriteBatch.Draw(this.texture, (position * 16.0f), new Rectangle(35, 1, 16, 16), Color.White,
+                    MathHelper.ToRadians(bodyPiece.Rotation), new Vector2(8.0f, 8.0f), Vector2.One, 
+                    SpriteEffects.None, 0.5f);
             }
 
-            spriteBatch.Draw(this.texture, (this.tail.Position * 16.0f), new Rectangle(18, 1, 16, 16), Color.White,
-                this.tail.Rotation, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.5f);
+            position = new Vector2(this.tail.Position.X * 16.0f, this.tail.Position.Y * 16.0f);
+            position.X += 8.0f;
+            position.Y += 8.0f;
+            spriteBatch.Draw(this.texture, position, new Rectangle(18, 1, 16, 16), Color.White,
+                MathHelper.ToRadians(this.tail.Rotation), new Vector2(8.0f, 8.0f), Vector2.One, 
+                SpriteEffects.None, 0.5f);
         }
 
         public void MoveSnake()
@@ -59,6 +71,9 @@ namespace Tphx.Bicephalisnake.Gameplay
             MoveHead();
             MoveBody(originalHead);
             this.tail = (originalBodyEnd == null) ? originalHead : originalBodyEnd;
+
+            RotatePiece(this.head);
+            RotatePiece(this.tail);
         }
 
         public bool MovingVertically { get; set; }
@@ -188,6 +203,26 @@ namespace Tphx.Bicephalisnake.Gameplay
             else
             {
                 return null;
+            }
+        }
+
+        private void RotatePiece(SnakePiece piece)
+        {   
+            if (piece.MovementDirection.Y == 1.0f)
+            {
+                piece.Rotation = 180.0f;
+            }
+            else if (piece.MovementDirection.Y == -1.0f)
+            {
+                piece.Rotation = 0.0f;
+            }
+            else if (piece.MovementDirection.X == -1.0f)
+            {
+                piece.Rotation = 270.0f;
+            }
+            if (piece.MovementDirection.X == 1.0f)
+            {
+                piece.Rotation = 90.0f;
             }
         }
     }
