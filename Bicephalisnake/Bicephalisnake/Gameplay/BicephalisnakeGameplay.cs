@@ -32,9 +32,9 @@ namespace Tphx.Bicephalisnake.Gameplay
         private Dictionary<Vector2, DirectionalArrow> directionalArrows = new Dictionary<Vector2, DirectionalArrow>()
         {
             { new Vector2(0.0f, -1.0f), new DirectionalArrow(0.0f, Color.Yellow) }, // Up
-            { new Vector2(0.0f, 1.0f), new DirectionalArrow(0.0f, Color.Yellow) }, // Down
-            { new Vector2(-1.0f, 0.0f), new DirectionalArrow(0.0f, Color.Yellow) }, // Left
-            { new Vector2(1.0f, 0.0f), new DirectionalArrow(0.0f, Color.Yellow) }, // Right
+            { new Vector2(0.0f, 1.0f), new DirectionalArrow(180.0f, Color.Green) }, // Down
+            { new Vector2(-1.0f, 0.0f), new DirectionalArrow(270.0f, Color.Blue) }, // Left
+            { new Vector2(1.0f, 0.0f), new DirectionalArrow(90.0f, Color.Red) }, // Right
         };
 
         public BicephalisnakeGameplay(ContentManager content)
@@ -56,8 +56,14 @@ namespace Tphx.Bicephalisnake.Gameplay
 
             // HUD
             spriteBatch.Draw(this.hudTexture, new Vector2(0.0f, levelTexture.Height), new Rectangle(0, 0, 560, 100), Color.White);
-            spriteBatch.Draw(this.hudTexture, new Vector2(40.0f, 580.0f), new Rectangle(561, 1, 61, 61), Color.White);
-            spriteBatch.Draw(this.hudTexture, new Vector2(459.0f, 580.0f), new Rectangle(561, 1, 61, 61), Color.White);
+            spriteBatch.Draw(this.hudTexture, new Vector2(40.0f + 31.5f, 580.0f + 31.5f), new Rectangle(561, 1, 61, 61), 
+                this.directionalArrows[this.snake.NextHorizontalTurn].Color, 
+                MathHelper.ToRadians(this.directionalArrows[this.snake.NextHorizontalTurn].Rotation), new Vector2(31.5f, 31.5f), 
+                Vector2.One, SpriteEffects.None, 0.6f);
+            spriteBatch.Draw(this.hudTexture, new Vector2(459.0f + 31.5f, 580.0f + 31.5f), new Rectangle(561, 1, 61, 61),
+                this.directionalArrows[this.snake.NextVerticalTurn].Color, 
+                MathHelper.ToRadians(this.directionalArrows[this.snake.NextVerticalTurn].Rotation), new Vector2(31.5f, 31.5f), 
+                Vector2.One, SpriteEffects.None, 0.6f);
             spriteBatch.DrawString(this.sousesFont, string.Format("Score: {0:00000000}", this.score), 
                 new Vector2(197.0f, 600.0f), Color.Black);
 
@@ -93,14 +99,12 @@ namespace Tphx.Bicephalisnake.Gameplay
 
                 if(keyboardState.IsKeyDown(Keys.Left) && this.snake.MovingVertically)
                 {
-                    float turnDirection = new Random((int)System.DateTime.Now.Ticks).Next(2) > 0 ? 1.0f : -1.0f;
-                    this.snake.TurnSnake(new Vector2(turnDirection, 0.0f));
+                    this.snake.TurnHorizontally();
                     this.timeSinceLastInput = 0.0f;
                 }
                 else if (keyboardState.IsKeyDown(Keys.Down) && !this.snake.MovingVertically)
                 {
-                    float turnDirection = new Random((int)System.DateTime.Now.Ticks).Next(2) > 0 ? 1.0f : -1.0f;
-                    this.snake.TurnSnake(new Vector2(0.0f, turnDirection));
+                    this.snake.TurnVertically();
                     this.timeSinceLastInput = 0.0f;
                 }
             }

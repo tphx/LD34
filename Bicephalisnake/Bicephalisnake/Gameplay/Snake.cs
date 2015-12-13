@@ -75,24 +75,26 @@ namespace Tphx.Bicephalisnake.Gameplay
                 (this.tail.Position.Y + (-1.0f * this.tail.MovementDirection.Y)));
         }
 
-        public void TurnSnake(Vector2 direction)
+        public void TurnHorizontally()
         {
-            // The snake can only turn 90 degrees. We need to check to make sure the direction is valid before
-            // we actually turn. If it isn't we can ignore the turn.
-
-            // Horizonal turn if the head isn't moving horizontally.
-            if((direction.X != 0.0f && direction.Y == 0.0f) && this.MovingVertically)
-            {
-                this.head.MovementDirection = direction;
-                this.MovingVertically = false;
-            }
-            // Vertical turn if the head isn't moving vertically.
-            else if ((direction.Y != 0.0f && direction.X == 0.0f) && !this.MovingVertically)
-            {
-                this.head.MovementDirection = direction;
-                this.MovingVertically = true;
-            }
+            this.head.MovementDirection = this.NextHorizontalTurn;
+            this.MovingVertically = false;
+            this.NextHorizontalTurn = new Vector2(
+                new Random((int)System.DateTime.Now.Ticks).Next(0, 2) > 0 ? 1.0f : -1.0f,
+                0.0f);
         }
+
+        public void TurnVertically()
+        {
+            this.head.MovementDirection = this.NextVerticalTurn;
+            this.MovingVertically = true;
+            this.NextVerticalTurn = new Vector2(0.0f,
+                new Random((int)System.DateTime.Now.Ticks).Next(0, 2) > 0 ? 1.0f : -1.0f);
+        }
+
+        public Vector2 NextHorizontalTurn { get; private set; }
+
+        public Vector2 NextVerticalTurn { get; private set; }
 
         public double TimeBetweenMoves { get; set; }
 
@@ -127,11 +129,15 @@ namespace Tphx.Bicephalisnake.Gameplay
 
         private void CreateSnake(Vector2 position)
         {
-            // Snake starts moving upwards.
             this.head = new SnakePiece(position, 0.0f, new Vector2(0.0f, -1.0f));
-            this.MovingVertically = true;
+
+            // Seed the turns then start moving upwards for consistency.
+            TurnHorizontally();
+            TurnVertically();
+            this.head.MovementDirection = new Vector2(0.0f, -1.0f);
+
             this.tail = new SnakePiece(new Vector2(position.X, position.Y + 1.0f), 0.0f, 
-                new Vector2(0.0f, -1.0f));
+               Vector2.Zero);
         }
 
         private void MoveBody(SnakePiece originalHead)
