@@ -156,12 +156,14 @@ namespace Tphx.Bicephalisnake.Gameplay
             {
                 KeyboardState keyboardState = Keyboard.GetState();
 
-                if (keyboardState.IsKeyDown(Keys.Left) && this.snake.MovingVertically)
+                if (keyboardState.IsKeyDown(Keys.Left) && (this.snake.MovingVertically || 
+                    this.snake.Head.MovementDirection == Vector2.Zero))
                 {
                     this.snake.TurnHorizontally();
                     this.timeSinceLastInput = 0.0f;
                 }
-                else if (keyboardState.IsKeyDown(Keys.Down) && !this.snake.MovingVertically)
+                else if (keyboardState.IsKeyDown(Keys.Down) && (!this.snake.MovingVertically ||
+                    this.snake.Head.MovementDirection == Vector2.Zero))
                 {
                     this.snake.TurnVertically();
                     this.timeSinceLastInput = 0.0f;
