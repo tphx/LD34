@@ -36,13 +36,10 @@ namespace Tphx.Bicephalisnake.Gameplay
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            Vector2 position = new Vector2(this.head.Position.X * 16.0f, this.head.Position.Y * 16.0f);
-            position.X += 8.0f;
-            position.Y += 8.0f;
-            spriteBatch.Draw(this.texture, position, new Rectangle(1, 1, 16, 16), Color.White,
-                MathHelper.ToRadians(this.head.Rotation), new Vector2(8.0f, 8.0f), Vector2.One, 
-                SpriteEffects.None, 0.5f);
+            // Head
+            Vector2 position;
 
+            // Body
             foreach(SnakePiece bodyPiece in this.bodyPieces)
             {
                 position = new Vector2(bodyPiece.Position.X * 16.0f, bodyPiece.Position.Y * 16.0f);
@@ -53,11 +50,20 @@ namespace Tphx.Bicephalisnake.Gameplay
                     SpriteEffects.None, 0.5f);
             }
 
+            // Tail
             position = new Vector2(this.tail.Position.X * 16.0f, this.tail.Position.Y * 16.0f);
             position.X += 8.0f;
             position.Y += 8.0f;
             spriteBatch.Draw(this.texture, position, new Rectangle(18, 1, 16, 16), Color.White,
                 MathHelper.ToRadians(this.tail.Rotation), new Vector2(8.0f, 8.0f), Vector2.One, 
+                SpriteEffects.None, 0.5f);
+
+            // Head
+            position = new Vector2(this.head.Position.X * 16.0f, this.head.Position.Y * 16.0f);
+            position.X += 8.0f;
+            position.Y += 8.0f;
+            spriteBatch.Draw(this.texture, position, new Rectangle(1, 1, 16, 16), Color.White,
+                MathHelper.ToRadians(this.head.Rotation), new Vector2(8.0f, 8.0f), Vector2.One,
                 SpriteEffects.None, 0.5f);
         }
 
