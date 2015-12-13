@@ -267,6 +267,10 @@ namespace Tphx.Bicephalisnake.Gameplay
                             this.snake.TimeBetweenMoves = 0.50;
                         }
                         break;
+                    case PowerupManager.PowerupType.Stop:
+                        this.snake.Stop();
+                        this.timeSinceLastInput = 0.0;
+                        break;
                 }
 
                 this.powerupManager.EatPowerup();

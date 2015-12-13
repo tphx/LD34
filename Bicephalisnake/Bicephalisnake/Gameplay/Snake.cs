@@ -63,17 +63,20 @@ namespace Tphx.Bicephalisnake.Gameplay
 
         public void MoveSnake()
         {
-            SnakePiece originalHead = new SnakePiece(this.head.Position, this.head.Rotation,
-                this.head.MovementDirection);
-            SnakePiece originalBodyEnd = GetBodyEnd();
+            if (this.head.MovementDirection != Vector2.Zero)
+            {
+                SnakePiece originalHead = new SnakePiece(this.head.Position, this.head.Rotation,
+                    this.head.MovementDirection);
+                SnakePiece originalBodyEnd = GetBodyEnd();
 
-            // Move the head and everything else just follows its leading piece.
-            MoveHead();
-            MoveBody(originalHead);
-            this.tail = (originalBodyEnd == null) ? originalHead : originalBodyEnd;
+                // Move the head and everything else just follows its leading piece.
+                MoveHead();
+                MoveBody(originalHead);
+                this.tail = (originalBodyEnd == null) ? originalHead : originalBodyEnd;
 
-            RotatePiece(this.head);
-            RotatePiece(this.tail);
+                RotatePiece(this.head);
+                RotatePiece(this.tail);
+            }
         }
 
         public bool MovingVertically { get; set; }
@@ -135,6 +138,11 @@ namespace Tphx.Bicephalisnake.Gameplay
             {
                 return this.tail;
             }
+        }
+
+        public void Stop()
+        {
+            this.head.MovementDirection = Vector2.Zero;
         }
 
         private void MoveHead()

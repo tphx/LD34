@@ -13,10 +13,12 @@ namespace Tphx.Bicephalisnake.Gameplay
         public enum PowerupType
         {
             SpeedReduction,
-            BonusPoints
+            BonusPoints,
+            Stop
         }
         private Texture2D powerupTexture;
         private double timeSinceLastPowerup;
+        private double timePowerupActive;
 
         public PowerupManager(ContentManager content)
         {
@@ -32,6 +34,15 @@ namespace Tphx.Bicephalisnake.Gameplay
             {
                 SpawnPowerup();
                 Console.WriteLine("Spawning Powerup");
+            }
+            else if(ActivePowerup != null)
+            {
+                this.timePowerupActive += gameTime.ElapsedGameTime.TotalSeconds;
+
+                if(this.timePowerupActive >= 10.0f)
+                {
+                    EatPowerup();
+                }
             }
         }
 
@@ -56,7 +67,8 @@ namespace Tphx.Bicephalisnake.Gameplay
         {
             Random rand = new Random((int)System.DateTime.Now.Ticks);
             this.ActivePowerup = new Powerup(new Vector2(rand.Next(0, 17), rand.Next(0, 17)), 
-                (PowerupType)new Random((int)System.DateTime.Now.Ticks).Next(0, 2));
+                (PowerupType)new Random((int)System.DateTime.Now.Ticks).Next(0, 3));
+            this.timePowerupActive = 0.0;
         }
 
         private Color GetPowerupColor(PowerupType powerupType)
@@ -67,6 +79,8 @@ namespace Tphx.Bicephalisnake.Gameplay
                     return Color.Blue;
                 case PowerupType.SpeedReduction:
                     return Color.Yellow;
+                case PowerupType.Stop:
+                    return Color.Red;
                 default:
                     return Color.White;
             }
