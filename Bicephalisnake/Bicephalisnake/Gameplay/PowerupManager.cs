@@ -33,7 +33,6 @@ namespace Tphx.Bicephalisnake.Gameplay
                 new Random((int)System.DateTime.Now.Ticks).Next(0, 100) >= 96)
             {
                 SpawnPowerup();
-                Console.WriteLine("Spawning Powerup");
             }
             else if(ActivePowerup != null)
             {
