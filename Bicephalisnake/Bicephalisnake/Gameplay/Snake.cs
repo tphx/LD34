@@ -106,7 +106,7 @@ namespace Tphx.Bicephalisnake.Gameplay
 
             if (this.head.Position.X < 0.0f)
             {
-                this.head.Position = new Vector2(BicephalisnakeGameplay.BoardDimensions.X,
+                this.head.Position = new Vector2(BicephalisnakeGameplay.BoardDimensions.X - 1,
                     this.head.Position.Y);
             }
 
@@ -118,7 +118,7 @@ namespace Tphx.Bicephalisnake.Gameplay
             if (this.head.Position.Y < 0.0f)
             {
                 this.head.Position = new Vector2(this.head.Position.X,
-                    BicephalisnakeGameplay.BoardDimensions.Y);
+                    BicephalisnakeGameplay.BoardDimensions.Y - 1);
             }
 
             if (this.head.Position.Y > BicephalisnakeGameplay.BoardDimensions.Y)
