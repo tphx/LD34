@@ -43,6 +43,7 @@
     <Compile Include="BicephalisnakeGame.cs" />
     <Compile Include="GameComponent.cs" />
     <Compile Include="Gameplay\BicephalisnakeGameplay.cs" />
+    <Compile Include="Gameplay\DirectionalArrow.cs" />
     <Compile Include="Gameplay\Snake.cs" />
     <Compile Include="Gameplay\SnakePiece.cs" />
     <Compile Include="Program.cs" />
