@@ -97,7 +97,7 @@ namespace Tphx.Bicephalisnake.Gameplay
             {
                 KeyboardState keyboardState = Keyboard.GetState();
 
-                if(keyboardState.IsKeyDown(Keys.Left) && this.snake.MovingVertically)
+                if (keyboardState.IsKeyDown(Keys.Left) && this.snake.MovingVertically)
                 {
                     this.snake.TurnHorizontally();
                     this.timeSinceLastInput = 0.0f;
@@ -107,9 +107,9 @@ namespace Tphx.Bicephalisnake.Gameplay
                     this.snake.TurnVertically();
                     this.timeSinceLastInput = 0.0f;
                 }
-            }
 
-            this.snake.Update(gameTime);
+                this.snake.Update(gameTime);
+            }
         }
 
         private void NewGame()

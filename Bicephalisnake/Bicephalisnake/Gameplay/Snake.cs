@@ -98,6 +98,19 @@ namespace Tphx.Bicephalisnake.Gameplay
 
         public double TimeBetweenMoves { get; set; }
 
+        public Vector2 HeadMovementDirection
+        {
+            get
+            {
+                return this.head.MovementDirection;
+            }
+
+            set
+            {
+                this.head.MovementDirection = value;
+            }
+        }
+
         private void MoveHead()
         {
             this.head.Position = new Vector2(
