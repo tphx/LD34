@@ -16,7 +16,7 @@ namespace Tphx.Bicephalisnake.Gameplay
             Uninitialized,
             NewGame,
             ReadyScreen,
-            CountDown,
+            Countdown,
             Playing,
             GameOver
         };
@@ -27,8 +27,11 @@ namespace Tphx.Bicephalisnake.Gameplay
         private double inputCooldown = 0.02;
         private Texture2D hudTexture;
         private Texture2D levelTexture;
+        private Texture2D screenCover;
         private SpriteFont sousesFont;
         private int score;
+        private double countDownTime = 4.0;
+        private double countdownRemaining;
         private Dictionary<Vector2, DirectionalArrow> directionalArrows = new Dictionary<Vector2, DirectionalArrow>()
         {
             { new Vector2(0.0f, -1.0f), new DirectionalArrow(0.0f, Color.Yellow) }, // Up
@@ -42,6 +45,7 @@ namespace Tphx.Bicephalisnake.Gameplay
         {
             this.hudTexture = this.content.Load<Texture2D>("Textures\\HUD");
             this.levelTexture = this.content.Load<Texture2D>("Textures\\Level1");
+            this.screenCover = this.content.Load<Texture2D>("Textures\\ScreenCover");
             this.sousesFont = this.content.Load<SpriteFont>("Fonts\\Souses");
         
             NewGame();
@@ -68,6 +72,32 @@ namespace Tphx.Bicephalisnake.Gameplay
                 new Vector2(197.0f, 600.0f), Color.Black);
 
             this.snake.Draw(spriteBatch);
+
+            if(this.gameplayState == GameplayState.Countdown)
+            {
+                DrawCountdown(spriteBatch);
+            }
+        }
+
+        private void DrawCountdown(SpriteBatch spriteBatch)
+        {
+            string message;
+            double countdownFloor = Math.Floor(this.countdownRemaining);
+
+            if (countdownFloor < 1)
+            {
+                message = "Go!";
+            }
+            else
+            {
+                message = countdownFloor.ToString("0");
+            }
+
+            Vector2 messageDimensions = sousesFont.MeasureString(message);
+
+            spriteBatch.Draw(screenCover, Vector2.Zero, Color.White);
+            spriteBatch.DrawString(sousesFont, message, new Vector2((280.0f - (messageDimensions.X / 2)),
+                (280.0f - (messageDimensions.X / 2))), Color.Red);
         }
 
         public override void Update(GameTime gameTime)
@@ -81,7 +111,8 @@ namespace Tphx.Bicephalisnake.Gameplay
                     break;
                 case GameplayState.ReadyScreen:
                     break;
-                case GameplayState.CountDown:
+                case GameplayState.Countdown:
+                    UpdateCountdown(gameTime);
                     break;
                 case GameplayState.Playing:
                     UpdateGameplay(gameTime);
@@ -122,7 +153,18 @@ namespace Tphx.Bicephalisnake.Gameplay
 
             this.snake = new Snake(this.content, snakePosition, 1.0);
             this.score = 0;
-            this.gameplayState = GameplayState.Playing;
+            this.countdownRemaining = this.countDownTime;
+            this.gameplayState = GameplayState.Countdown;
+        }
+
+        private void UpdateCountdown(GameTime gameTime)
+        {
+            this.countdownRemaining -= gameTime.ElapsedGameTime.TotalSeconds;
+
+            if(this.countdownRemaining <= 0.0f)
+            {
+                this.gameplayState = GameplayState.Playing;
+            }
         }
     }
 }
