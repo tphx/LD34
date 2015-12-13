@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Tphx.Bicephalisnake.Gameplay
 {
@@ -34,6 +35,7 @@ namespace Tphx.Bicephalisnake.Gameplay
         private double countdownRemaining;
         private FoodManager foodManager;
         private PowerupManager powerupManager;
+        private Dictionary<string, SoundEffect> soundEffects;
         private Dictionary<Vector2, DirectionalArrow> directionalArrows = new Dictionary<Vector2, DirectionalArrow>()
         {
             { new Vector2(0.0f, -1.0f), new DirectionalArrow(0.0f, Color.Yellow) }, // Up
@@ -191,13 +193,28 @@ namespace Tphx.Bicephalisnake.Gameplay
             this.gameplayState = GameplayState.Countdown;
         }
 
+        double lastCountdownFloor;
+
         private void UpdateCountdown(GameTime gameTime)
         {
+            this.lastCountdownFloor = Math.Floor(this.countdownRemaining);
             this.countdownRemaining -= gameTime.ElapsedGameTime.TotalSeconds;
+            double currentFloor = Math.Floor(this.countdownRemaining);
 
-            if(this.countdownRemaining <= 0.0f)
+            if (this.countdownRemaining <= 0.0f)
             {
                 this.gameplayState = GameplayState.Playing;
+            }
+            else if(this.lastCountdownFloor > currentFloor)
+            {
+                if (currentFloor > 0)
+                {
+                    this.soundEffects["Countdown"].Play();
+                }
+                else
+                {
+                    this.soundEffects["Start"].Play();
+                }
             }
         }
 
@@ -229,6 +246,7 @@ namespace Tphx.Bicephalisnake.Gameplay
                 {
                     this.gameplayState = GameplayState.GameOver;
                     this.timeSinceLastInput = 0.0;
+                    this.soundEffects["GameOver"].Play();
                 }
             }
 
@@ -237,6 +255,7 @@ namespace Tphx.Bicephalisnake.Gameplay
             {
                 this.gameplayState = GameplayState.GameOver;
                 this.timeSinceLastInput = 0.0;
+                this.soundEffects["GameOver"].Play();
             }
 
             // Food.
@@ -249,6 +268,7 @@ namespace Tphx.Bicephalisnake.Gameplay
                 this.snake.TimeBetweenMoves *= reductionMultiplier;
                 this.score += (10 * this.scoreMulitiplier);
                 this.scoreMulitiplier++;
+                this.soundEffects["Food"].Play();
             }
 
             // Powerups.
@@ -259,6 +279,7 @@ namespace Tphx.Bicephalisnake.Gameplay
                 {
                     case PowerupManager.PowerupType.BonusPoints:
                         this.score += 1000;
+                        this.soundEffects["Score"].Play();
                         break;
                     case PowerupManager.PowerupType.SpeedReduction:
                         this.snake.TimeBetweenMoves *= 1.10;
@@ -266,10 +287,12 @@ namespace Tphx.Bicephalisnake.Gameplay
                         {
                             this.snake.TimeBetweenMoves = 0.50;
                         }
+                        this.soundEffects["SpeedReduction"].Play();
                         break;
                     case PowerupManager.PowerupType.Stop:
                         this.snake.Stop();
                         this.timeSinceLastInput = 0.0;
+                        this.soundEffects["Stop"].Play();
                         break;
                 }
 
@@ -283,6 +306,17 @@ namespace Tphx.Bicephalisnake.Gameplay
             this.levelTexture = this.content.Load<Texture2D>("Textures\\Level1");
             this.screenCover = this.content.Load<Texture2D>("Textures\\ScreenCover");
             this.sousesFont = this.content.Load<SpriteFont>("Fonts\\Souses");
+
+            this.soundEffects = new Dictionary<string, SoundEffect>()
+            {
+                { "Countdown", this.content.Load<SoundEffect>("Sounds\\Countdown") },
+                { "Food", this.content.Load<SoundEffect>("Sounds\\Food") },
+                { "Score", this.content.Load<SoundEffect>("Sounds\\Score") },
+                { "SpeedReduction", this.content.Load<SoundEffect>("Sounds\\SpeedReduction") },
+                { "Stop", this.content.Load<SoundEffect>("Sounds\\Stop") },
+                { "GameOver", this.content.Load<SoundEffect>("Sounds\\GameOver") },
+                { "Start", this.content.Load<SoundEffect>("Sounds\\Start") }
+            };
         }
     }
 }
