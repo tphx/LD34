@@ -33,6 +33,7 @@ namespace Tphx.Bicephalisnake.Gameplay
         private double countDownTime = 4.0;
         private double countdownRemaining;
         private FoodManager foodManager;
+        private PowerupManager powerupManager;
         private Dictionary<Vector2, DirectionalArrow> directionalArrows = new Dictionary<Vector2, DirectionalArrow>()
         {
             { new Vector2(0.0f, -1.0f), new DirectionalArrow(0.0f, Color.Yellow) }, // Up
@@ -68,6 +69,7 @@ namespace Tphx.Bicephalisnake.Gameplay
                 new Vector2(197.0f, 600.0f), Color.Black);
 
             this.foodManager.Draw(spriteBatch);
+            this.powerupManager.Draw(spriteBatch);
             this.snake.Draw(spriteBatch);
 
             if(this.gameplayState == GameplayState.Countdown)
@@ -165,6 +167,7 @@ namespace Tphx.Bicephalisnake.Gameplay
             }
 
             this.snake.Update(gameTime);
+            this.powerupManager.Update(gameTime);
 
             CheckCollisions();
         }
@@ -181,6 +184,7 @@ namespace Tphx.Bicephalisnake.Gameplay
             LoadContent();
             this.snake = new Snake(this.content, snakePosition, 0.50);
             this.foodManager = new FoodManager(this.content);
+            this.powerupManager = new PowerupManager(this.content);
             this.score = 0;
             this.scoreMulitiplier = 1;
             this.countdownRemaining = this.countDownTime;
@@ -248,6 +252,27 @@ namespace Tphx.Bicephalisnake.Gameplay
                 Console.WriteLine(this.snake.TimeBetweenMoves);
                 this.score += (10 * this.scoreMulitiplier);
                 this.scoreMulitiplier++;
+            }
+
+            // Powerups.
+            if (this.powerupManager.ActivePowerup != null && 
+                this.snake.Head.Position == this.powerupManager.ActivePowerup.Position)
+            {
+                switch(this.powerupManager.ActivePowerup.PowerupType)
+                {
+                    case PowerupManager.PowerupType.BonusPoints:
+                        this.score += 1000;
+                        break;
+                    case PowerupManager.PowerupType.SpeedReduction:
+                        this.snake.TimeBetweenMoves *= 1.10;
+                        if(this.snake.TimeBetweenMoves >= 0.50)
+                        {
+                            this.snake.TimeBetweenMoves = 0.50;
+                        }
+                        break;
+                }
+
+                this.powerupManager.EatPowerup();
             }
         }
 
