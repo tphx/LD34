@@ -229,7 +229,6 @@ namespace Tphx.Bicephalisnake.Gameplay
                 {
                     this.gameplayState = GameplayState.GameOver;
                     this.timeSinceLastInput = 0.0;
-                    Console.WriteLine("Hit Body");
                 }
             }
 
@@ -238,7 +237,6 @@ namespace Tphx.Bicephalisnake.Gameplay
             {
                 this.gameplayState = GameplayState.GameOver;
                 this.timeSinceLastInput = 0.0;
-                Console.WriteLine("Hit Tail");
             }
 
             // Food.
@@ -249,7 +247,6 @@ namespace Tphx.Bicephalisnake.Gameplay
                 // Start off fast and then slow down so the speed doesn't get ridiculous too fast.
                 double reductionMultiplier = this.snake.TimeBetweenMoves >= 0.10 ? 0.80 : 0.97;
                 this.snake.TimeBetweenMoves *= reductionMultiplier;
-                Console.WriteLine(this.snake.TimeBetweenMoves);
                 this.score += (10 * this.scoreMulitiplier);
                 this.scoreMulitiplier++;
             }
