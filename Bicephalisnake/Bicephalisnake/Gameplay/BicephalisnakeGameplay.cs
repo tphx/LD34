@@ -108,11 +108,13 @@ namespace Tphx.Bicephalisnake.Gameplay
         private void DrawGameOver(SpriteBatch spriteBatch)
         {
             string gameOverMessage = "Game Over!";
-            string restartMessage = "Press Left or Down to restart.";
+            string restartMessage = "Press the Left Arrow to restart.";
+            string mainMenuMessage = "Press the Down Arrow to return to the main menu.";
             string scoreMessage = "Final Score:";
             string scoreCountMessage = this.score.ToString();
             Vector2 gameOverMessageDimensions = sousesFont.MeasureString(gameOverMessage);
             Vector2 restartMessageDimensions = sousesFont.MeasureString(restartMessage);
+            Vector2 mainMenuMessageDimensions = sousesFont.MeasureString(mainMenuMessage);
             Vector2 scoreMessageDimensions = sousesFont.MeasureString(scoreMessage);
             Vector2 scoreCountMessageDimensions = sousesFont.MeasureString(scoreCountMessage);
 
@@ -121,10 +123,12 @@ namespace Tphx.Bicephalisnake.Gameplay
                 200.0f), Color.Red);
             spriteBatch.DrawString(sousesFont, restartMessage, new Vector2((280.0f - (restartMessageDimensions.X / 2)),
                 250.0f), Color.Red);
-            spriteBatch.DrawString(sousesFont, scoreMessage, new Vector2((280.0f - (scoreMessageDimensions.X / 2)),
+            spriteBatch.DrawString(sousesFont, mainMenuMessage, new Vector2((280.0f - (mainMenuMessageDimensions.X / 2)),
                 300.0f), Color.Red);
-            spriteBatch.DrawString(sousesFont, scoreCountMessage, new Vector2((280.0f - (scoreCountMessageDimensions.X / 2)),
+            spriteBatch.DrawString(sousesFont, scoreMessage, new Vector2((280.0f - (scoreMessageDimensions.X / 2)),
                 350.0f), Color.Red);
+            spriteBatch.DrawString(sousesFont, scoreCountMessage, new Vector2((280.0f - (scoreCountMessageDimensions.X / 2)),
+                400.0f), Color.Red);
         }
 
         public override void Update(GameTime gameTime)
@@ -149,6 +153,8 @@ namespace Tphx.Bicephalisnake.Gameplay
                     break;
             }
         }
+
+        public bool ReturnToMainMenu { get; private set; }
 
         private void UpdateGameplay(GameTime gameTime)
         {
@@ -192,6 +198,7 @@ namespace Tphx.Bicephalisnake.Gameplay
             this.score = 0;
             this.scoreMulitiplier = 1;
             this.countdownRemaining = this.countDownTime;
+            this.timeSinceLastInput = 0.0;
             this.gameplayState = GameplayState.Countdown;
         }
 
@@ -228,13 +235,11 @@ namespace Tphx.Bicephalisnake.Gameplay
 
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
-                    this.timeSinceLastInput = 0.0;
                     NewGame();
                 }
                 else if (keyboardState.IsKeyDown(Keys.Down))
                 {
-                    this.timeSinceLastInput = 0.0;
-                    NewGame();
+                    this.ReturnToMainMenu = true;
                 }
             }
         }
