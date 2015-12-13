@@ -18,7 +18,7 @@ namespace Tphx.Bicephalisnake.Gameplay
 
         public Snake(ContentManager content, Vector2 position, double timeBetweenMoves)
         {
-            this.texture = content.Load<Texture2D>("Textures\\TestTextures");
+            this.texture = content.Load<Texture2D>("Textures\\Snake");
             this.TimeBetweenMoves = timeBetweenMoves;
             CreateSnake(position);
         }
