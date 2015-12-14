@@ -83,53 +83,6 @@ namespace Tphx.Bicephalisnake.Gameplay
             }
         }
 
-        private void DrawCountdown(SpriteBatch spriteBatch)
-        {
-            string message;
-            double countdownFloor = Math.Floor(this.countdownRemaining);
-
-            if (countdownFloor < 1)
-            {
-                message = "Go!";
-            }
-            else
-            {
-                message = countdownFloor.ToString("0");
-            }
-
-            Vector2 messageDimensions = sousesFont.MeasureString(message);
-
-            spriteBatch.Draw(screenCover, Vector2.Zero, Color.White);
-            spriteBatch.DrawString(sousesFont, message, new Vector2((280.0f - (messageDimensions.X / 2)),
-                (280.0f - (messageDimensions.X / 2))), Color.Red);
-        }
-
-        private void DrawGameOver(SpriteBatch spriteBatch)
-        {
-            string gameOverMessage = "Game Over!";
-            string restartMessage = "Press the Left Arrow to restart.";
-            string mainMenuMessage = "Press the Down Arrow to return to the main menu.";
-            string scoreMessage = "Final Score:";
-            string scoreCountMessage = this.score.ToString();
-            Vector2 gameOverMessageDimensions = sousesFont.MeasureString(gameOverMessage);
-            Vector2 restartMessageDimensions = sousesFont.MeasureString(restartMessage);
-            Vector2 mainMenuMessageDimensions = sousesFont.MeasureString(mainMenuMessage);
-            Vector2 scoreMessageDimensions = sousesFont.MeasureString(scoreMessage);
-            Vector2 scoreCountMessageDimensions = sousesFont.MeasureString(scoreCountMessage);
-
-            spriteBatch.Draw(screenCover, Vector2.Zero, Color.White);
-            spriteBatch.DrawString(sousesFont, gameOverMessage, new Vector2((280.0f - (gameOverMessageDimensions.X / 2)),
-                200.0f), Color.Red);
-            spriteBatch.DrawString(sousesFont, restartMessage, new Vector2((280.0f - (restartMessageDimensions.X / 2)),
-                250.0f), Color.Red);
-            spriteBatch.DrawString(sousesFont, mainMenuMessage, new Vector2((280.0f - (mainMenuMessageDimensions.X / 2)),
-                300.0f), Color.Red);
-            spriteBatch.DrawString(sousesFont, scoreMessage, new Vector2((280.0f - (scoreMessageDimensions.X / 2)),
-                350.0f), Color.Red);
-            spriteBatch.DrawString(sousesFont, scoreCountMessage, new Vector2((280.0f - (scoreCountMessageDimensions.X / 2)),
-                400.0f), Color.Red);
-        }
-
         public override void Update(GameTime gameTime)
         {
             this.timeSinceLastInput += gameTime.ElapsedGameTime.TotalSeconds;
@@ -317,6 +270,53 @@ namespace Tphx.Bicephalisnake.Gameplay
                 { "GameOver", this.content.Load<SoundEffect>("Sounds\\GameOver") },
                 { "Start", this.content.Load<SoundEffect>("Sounds\\Start") }
             };
+        }
+
+        private void DrawCountdown(SpriteBatch spriteBatch)
+        {
+            string message;
+            double countdownFloor = Math.Floor(this.countdownRemaining);
+
+            if (countdownFloor < 1)
+            {
+                message = "Go!";
+            }
+            else
+            {
+                message = countdownFloor.ToString("0");
+            }
+
+            Vector2 messageDimensions = sousesFont.MeasureString(message);
+
+            spriteBatch.Draw(screenCover, Vector2.Zero, Color.White);
+            spriteBatch.DrawString(sousesFont, message, new Vector2((280.0f - (messageDimensions.X / 2)),
+                (280.0f - (messageDimensions.X / 2))), Color.Red);
+        }
+
+        private void DrawGameOver(SpriteBatch spriteBatch)
+        {
+            string gameOverMessage = "Game Over!";
+            string restartMessage = "Press the Left Arrow to restart.";
+            string mainMenuMessage = "Press the Down Arrow to return to the main menu.";
+            string scoreMessage = "Final Score:";
+            string scoreCountMessage = this.score.ToString();
+            Vector2 gameOverMessageDimensions = sousesFont.MeasureString(gameOverMessage);
+            Vector2 restartMessageDimensions = sousesFont.MeasureString(restartMessage);
+            Vector2 mainMenuMessageDimensions = sousesFont.MeasureString(mainMenuMessage);
+            Vector2 scoreMessageDimensions = sousesFont.MeasureString(scoreMessage);
+            Vector2 scoreCountMessageDimensions = sousesFont.MeasureString(scoreCountMessage);
+
+            spriteBatch.Draw(screenCover, Vector2.Zero, Color.White);
+            spriteBatch.DrawString(sousesFont, gameOverMessage, new Vector2((280.0f - (gameOverMessageDimensions.X / 2)),
+                200.0f), Color.Red);
+            spriteBatch.DrawString(sousesFont, restartMessage, new Vector2((280.0f - (restartMessageDimensions.X / 2)),
+                250.0f), Color.Red);
+            spriteBatch.DrawString(sousesFont, mainMenuMessage, new Vector2((280.0f - (mainMenuMessageDimensions.X / 2)),
+                300.0f), Color.Red);
+            spriteBatch.DrawString(sousesFont, scoreMessage, new Vector2((280.0f - (scoreMessageDimensions.X / 2)),
+                350.0f), Color.Red);
+            spriteBatch.DrawString(sousesFont, scoreCountMessage, new Vector2((280.0f - (scoreCountMessageDimensions.X / 2)),
+                400.0f), Color.Red);
         }
     }
 }
