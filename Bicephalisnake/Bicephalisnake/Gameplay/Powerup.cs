@@ -1,8 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Tphx.Bicephalisnake.Gameplay
 {
@@ -14,8 +10,8 @@ namespace Tphx.Bicephalisnake.Gameplay
             this.PowerupType = powerupType;
         }
 
-        public Vector2 Position { get; set; }
+        public Vector2 Position { get; private set; }
 
-        public PowerupManager.PowerupType PowerupType { get; set; }
+        public PowerupManager.PowerupType PowerupType { get; private set; }
     }
 }

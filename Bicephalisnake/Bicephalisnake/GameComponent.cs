@@ -2,9 +2,6 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Tphx.Bicephalisnake
 {
@@ -18,14 +15,14 @@ namespace Tphx.Bicephalisnake
             this.content = new ContentManager(content.ServiceProvider, content.RootDirectory);
         }
 
+        public abstract void Update(GameTime gameTime);
+
+        public abstract void Draw(SpriteBatch spriteBatch);
+
         public void Dispose()
         {
             Dispose(true);
         }
-
-        public abstract void Update(GameTime gameTime);
-
-        public abstract void Draw(SpriteBatch spriteBatch);
 
         private void Dispose(bool disposing)
         {

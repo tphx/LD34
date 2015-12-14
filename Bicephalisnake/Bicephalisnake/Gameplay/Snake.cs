@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Tphx.Bicephalisnake.Gameplay
 {
@@ -21,6 +20,38 @@ namespace Tphx.Bicephalisnake.Gameplay
             this.texture = content.Load<Texture2D>("Textures\\Snake");
             this.TimeBetweenMoves = timeBetweenMoves;
             CreateSnake(position);
+        }
+
+        public bool MovingVertically { get; set; }
+
+        public Vector2 NextHorizontalTurn { get; private set; }
+
+        public Vector2 NextVerticalTurn { get; private set; }
+
+        public double TimeBetweenMoves { get; set; }
+
+        public SnakePiece Head
+        {
+            get
+            {
+                return this.head;
+            }
+        }
+
+        public List<SnakePiece> BodyPieces
+        {
+            get
+            {
+                return this.bodyPieces.ToList();
+            }
+        }
+
+        public SnakePiece Tail
+        {
+            get
+            {
+                return this.tail;
+            }
         }
 
         public void Update(GameTime gameTime)
@@ -85,8 +116,6 @@ namespace Tphx.Bicephalisnake.Gameplay
             }
         }
 
-        public bool MovingVertically { get; set; }
-
         public void SpawnSnakePiece()
         {
             // The new piece is the current tail. 
@@ -114,36 +143,6 @@ namespace Tphx.Bicephalisnake.Gameplay
             this.MovingVertically = true;
             this.NextVerticalTurn = new Vector2(0.0f,
                 new Random((int)System.DateTime.Now.Ticks).Next(0, 2) > 0 ? 1.0f : -1.0f);
-        }
-
-        public Vector2 NextHorizontalTurn { get; private set; }
-
-        public Vector2 NextVerticalTurn { get; private set; }
-
-        public double TimeBetweenMoves { get; set; }
-
-        public SnakePiece Head
-        {
-            get
-            {
-                return this.head;
-            }
-        }
-
-        public List<SnakePiece> BodyPieces
-        {
-            get
-            {
-                return this.bodyPieces.ToList();
-            }
-        }
-
-        public SnakePiece Tail
-        {
-            get
-            {
-                return this.tail;
-            }
         }
 
         public void Stop()

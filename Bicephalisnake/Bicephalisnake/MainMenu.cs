@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Tphx.Bicephalisnake
@@ -19,6 +15,8 @@ namespace Tphx.Bicephalisnake
         {
             this.texture = this.content.Load<Texture2D>("Textures\\MainMenu");
         }
+
+        public bool StartGame { get; private set; }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -39,7 +37,5 @@ namespace Tphx.Bicephalisnake
                 }
             }
         }
-
-        public bool StartGame { get; private set; }
     }
 }

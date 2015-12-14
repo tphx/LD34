@@ -1,8 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Tphx.Bicephalisnake.Gameplay
 {
@@ -14,8 +10,8 @@ namespace Tphx.Bicephalisnake.Gameplay
             this.Color = color;
         }
 
-        public float Rotation { get; set; }
+        public float Rotation { get; private set; }
 
-        public Color Color { get; set; }
+        public Color Color { get; private set; }
     }
 }

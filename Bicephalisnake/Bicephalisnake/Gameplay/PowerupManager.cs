@@ -2,9 +2,6 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Tphx.Bicephalisnake.Gameplay
 {
@@ -16,6 +13,7 @@ namespace Tphx.Bicephalisnake.Gameplay
             BonusPoints,
             Stop
         }
+
         private Texture2D powerupTexture;
         private double timeSinceLastPowerup;
         private double timePowerupActive;
@@ -25,6 +23,8 @@ namespace Tphx.Bicephalisnake.Gameplay
         {
             this.powerupTexture = content.Load<Texture2D>("Textures\\Powerup");
         }
+
+        public Powerup ActivePowerup { get; private set; }
 
         public void Update(GameTime gameTime)
         {
@@ -40,7 +40,7 @@ namespace Tphx.Bicephalisnake.Gameplay
                     SpawnPowerup();
                 }
             }
-            else if(ActivePowerup != null)
+            else if(this.ActivePowerup != null)
             {
                 this.timePowerupActive += gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -62,11 +62,9 @@ namespace Tphx.Bicephalisnake.Gameplay
 
         public void EatPowerup()
         {
-            timeSinceLastPowerup = 0.0;
+            this.timeSinceLastPowerup = 0.0;
             this.ActivePowerup = null;
         }
-
-        public Powerup ActivePowerup { get; private set; }
 
         private void SpawnPowerup()
         {

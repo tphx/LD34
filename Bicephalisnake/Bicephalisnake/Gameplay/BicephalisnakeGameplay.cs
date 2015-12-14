@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
 
 namespace Tphx.Bicephalisnake.Gameplay
 {
@@ -22,13 +20,13 @@ namespace Tphx.Bicephalisnake.Gameplay
 
         private GameplayState gameplayState = GameplayState.Uninitialized;
         private Snake snake;
-        private double timeSinceLastInput;
         private Texture2D hudTexture;
         private Texture2D levelTexture;
         private Texture2D screenCover;
         private SpriteFont sousesFont;
         private int score;
         private int scoreMulitiplier;
+        private double timeSinceLastInput;
         private double countDownTime = 4.0;
         private double countdownRemaining;
         private FoodManager foodManager;
@@ -51,13 +49,15 @@ namespace Tphx.Bicephalisnake.Gameplay
 
         public static Vector2 BoardDimensions { get; private set; }
 
+        public bool ReturnToMainMenu { get; private set; }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             // Level
             spriteBatch.Draw(this.levelTexture, Vector2.Zero, null, Color.White);
 
             // HUD
-            spriteBatch.Draw(this.hudTexture, new Vector2(0.0f, levelTexture.Height), new Rectangle(0, 0, 560, 100), Color.White);
+            spriteBatch.Draw(this.hudTexture, new Vector2(0.0f, this.levelTexture.Height), new Rectangle(0, 0, 560, 100), Color.White);
             spriteBatch.Draw(this.hudTexture, new Vector2(40.0f + 31.5f, 580.0f + 31.5f), new Rectangle(561, 1, 61, 61), 
                 this.directionalArrows[this.snake.NextHorizontalTurn].Color, 
                 MathHelper.ToRadians(this.directionalArrows[this.snake.NextHorizontalTurn].Rotation), new Vector2(31.5f, 31.5f), 
@@ -100,8 +100,6 @@ namespace Tphx.Bicephalisnake.Gameplay
                     break;
             }
         }
-
-        public bool ReturnToMainMenu { get; private set; }
 
         private void UpdateGameplay(GameTime gameTime)
         {
@@ -288,8 +286,8 @@ namespace Tphx.Bicephalisnake.Gameplay
 
             Vector2 messageDimensions = sousesFont.MeasureString(message);
 
-            spriteBatch.Draw(screenCover, Vector2.Zero, Color.White);
-            spriteBatch.DrawString(sousesFont, message, new Vector2((280.0f - (messageDimensions.X / 2)),
+            spriteBatch.Draw(this.screenCover, Vector2.Zero, Color.White);
+            spriteBatch.DrawString(this.sousesFont, message, new Vector2((280.0f - (messageDimensions.X / 2)),
                 (280.0f - (messageDimensions.X / 2))), Color.Red);
         }
 
