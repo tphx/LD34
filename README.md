@@ -1,4 +1,4 @@
-# LD34
+Bicephalisnake
 
 Ludum Dare 34 Compo Entry.
 
