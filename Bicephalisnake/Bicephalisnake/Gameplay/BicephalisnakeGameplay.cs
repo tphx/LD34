@@ -192,7 +192,7 @@ namespace Tphx.Bicephalisnake.Gameplay
 
             this.content.Unload();
             LoadContent();
-            this.snake = new Snake(this.content, snakePosition, 0.50);
+            this.snake = new Snake(this.content, snakePosition, 0.20);
             this.foodManager = new FoodManager(this.content);
             this.powerupManager = new PowerupManager(this.content);
             this.score = 0;
@@ -271,8 +271,9 @@ namespace Tphx.Bicephalisnake.Gameplay
                 this.foodManager.EatFood();
                 this.snake.SpawnSnakePiece();
                 // Start off fast and then slow down so the speed doesn't get ridiculous too fast.
-                double reductionMultiplier = this.snake.TimeBetweenMoves >= 0.10 ? 0.80 : 0.97;
-                this.snake.TimeBetweenMoves *= reductionMultiplier;
+                //double reductionMultiplier = this.snake.TimeBetweenMoves >= 0.10 ? 0.80 : 0.97;
+                //this.snake.TimeBetweenMoves *= reductionMultiplier;
+                this.snake.TimeBetweenMoves *= 0.95;
                 this.score += (10 * this.scoreMulitiplier);
                 this.scoreMulitiplier++;
                 this.soundEffects["Food"].Play();
@@ -289,10 +290,10 @@ namespace Tphx.Bicephalisnake.Gameplay
                         this.soundEffects["Score"].Play();
                         break;
                     case PowerupManager.PowerupType.SpeedReduction:
-                        this.snake.TimeBetweenMoves *= 1.10;
-                        if(this.snake.TimeBetweenMoves >= 0.50)
+                        this.snake.TimeBetweenMoves *= 1.20;
+                        if(this.snake.TimeBetweenMoves >= 0.20)
                         {
-                            this.snake.TimeBetweenMoves = 0.50;
+                            this.snake.TimeBetweenMoves = 0.20;
                         }
                         this.soundEffects["SpeedReduction"].Play();
                         break;
