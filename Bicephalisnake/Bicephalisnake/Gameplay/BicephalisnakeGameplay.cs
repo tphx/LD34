@@ -36,6 +36,7 @@ namespace Tphx.Bicephalisnake.Gameplay
         private FoodManager foodManager;
         private PowerupManager powerupManager;
         private Dictionary<string, SoundEffect> soundEffects;
+        double lastCountdownFloor;
         private Dictionary<Vector2, DirectionalArrow> directionalArrows = new Dictionary<Vector2, DirectionalArrow>()
         {
             { new Vector2(0.0f, -1.0f), new DirectionalArrow(0.0f, Color.Yellow) }, // Up
@@ -201,8 +202,6 @@ namespace Tphx.Bicephalisnake.Gameplay
             this.timeSinceLastInput = 0.0;
             this.gameplayState = GameplayState.Countdown;
         }
-
-        double lastCountdownFloor;
 
         private void UpdateCountdown(GameTime gameTime)
         {
