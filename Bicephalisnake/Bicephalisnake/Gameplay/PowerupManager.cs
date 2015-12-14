@@ -19,6 +19,7 @@ namespace Tphx.Bicephalisnake.Gameplay
         private Texture2D powerupTexture;
         private double timeSinceLastPowerup;
         private double timePowerupActive;
+        private double timeSinceLastTrySpawn;
 
         public PowerupManager(ContentManager content)
         {
@@ -27,12 +28,17 @@ namespace Tphx.Bicephalisnake.Gameplay
 
         public void Update(GameTime gameTime)
         {
-            timeSinceLastPowerup += gameTime.ElapsedGameTime.TotalSeconds;
+            this.timeSinceLastPowerup += gameTime.ElapsedGameTime.TotalSeconds;
+            this.timeSinceLastTrySpawn += gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (this.ActivePowerup == null && timeSinceLastPowerup >= 20.0 && 
-                new Random((int)System.DateTime.Now.Ticks).Next(0, 100) >= 96)
+            if (this.ActivePowerup == null && this.timeSinceLastPowerup >= 15.0 && this.timeSinceLastTrySpawn >= 1.0)
             {
-                SpawnPowerup();
+                this.timeSinceLastTrySpawn = 0.0;
+
+                if (new Random((int)System.DateTime.Now.Ticks).Next(0, 100) < 10)
+                {
+                    SpawnPowerup();
+                }
             }
             else if(ActivePowerup != null)
             {
