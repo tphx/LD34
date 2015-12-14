@@ -235,9 +235,6 @@ namespace Tphx.Bicephalisnake.Gameplay
             {
                 this.foodManager.EatFood();
                 this.snake.SpawnSnakePiece();
-                // Start off fast and then slow down so the speed doesn't get ridiculous too fast.
-                //double reductionMultiplier = this.snake.TimeBetweenMoves >= 0.10 ? 0.80 : 0.97;
-                //this.snake.TimeBetweenMoves *= reductionMultiplier;
                 this.snake.TimeBetweenMoves *= 0.95;
                 this.score += (10 * this.scoreMulitiplier);
                 this.scoreMulitiplier++;
