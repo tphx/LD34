@@ -15,8 +15,6 @@ namespace Tphx.Bicephalisnake.Gameplay
         private enum GameplayState
         {
             Uninitialized,
-            NewGame,
-            ReadyScreen,
             Countdown,
             Playing,
             GameOver
@@ -138,11 +136,6 @@ namespace Tphx.Bicephalisnake.Gameplay
 
             switch (this.gameplayState)
             {
-                case GameplayState.NewGame:
-                    NewGame();
-                    break;
-                case GameplayState.ReadyScreen:
-                    break;
                 case GameplayState.Countdown:
                     UpdateCountdown(gameTime);
                     break;
